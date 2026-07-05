@@ -1,1 +1,94 @@
-<h1>Staff Dashboard</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Staff Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🏔 Staff Dashboard</h1>
+
+    <hr>
+
+    <h3>Welcome, {{ current_user.name }}</h3>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>{{ assigned_treks|length }}</h2>
+            <p>Assigned Treks</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ total_participants }}</h2>
+            <p>Total Participants</p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <h2>My Treks</h2>
+
+    <table border="1" width="100%">
+
+        <tr>
+            <th>ID</th>
+            <th>Trek Name</th>
+            <th>Location</th>
+            <th>Difficulty</th>
+            <th>Slots</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for trek in assigned_treks %}
+
+        <tr>
+
+            <td>{{ trek.id }}</td>
+
+            <td>{{ trek.trek_name }}</td>
+
+            <td>{{ trek.location }}</td>
+
+            <td>{{ trek.difficulty }}</td>
+
+            <td>{{ trek.available_slots }}</td>
+
+            <td>{{ trek.status }}</td>
+
+            <td>
+
+                <a href="{{ url_for('routes.update_trek', trek_id=trek.id) }}">
+                    Update
+                </a>
+
+                |
+
+                <a href="{{ url_for('routes.view_participants', trek_id=trek.id) }}">
+                    Participants
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+</body>
+</html>

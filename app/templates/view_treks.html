@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Treks</title>
+</head>
+
+<body>
+
+<h2>All Treks</h2>
+
+<a href="{{ url_for('routes.add_trek') }}">
+    Add New Trek
+</a>
+
+<br><br>
+
+<table border="1" cellpadding="8">
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Location</th>
+<th>Difficulty</th>
+<th>Duration</th>
+<th>Slots</th>
+<th>Status</th>
+<th>Staff</th>
+<th>Action</th>
+
+</tr>
+
+{% for trek in treks %}
+
+<tr>
+
+<td>{{ trek.id }}</td>
+
+<td>{{ trek.trek_name }}</td>
+
+<td>{{ trek.location }}</td>
+
+<td>{{ trek.difficulty }}</td>
+
+<td>{{ trek.duration }}</td>
+
+<td>{{ trek.available_slots }}</td>
+
+<td>{{ trek.status }}</td>
+
+<td>
+
+{% if trek.staff %}
+
+{{ trek.staff.user.name }}
+
+{% else %}
+
+Not Assigned
+
+{% endif %}
+
+</td>
+
+<td>
+
+<a href="{{ url_for('routes.edit_trek', trek_id=trek.id) }}">
+
+Edit
+
+</a>
+
+|
+
+<a href="{{ url_for('routes.delete_trek', trek_id=trek.id) }}">
+
+Delete
+
+</a>
+
+|
+
+<a href="{{ url_for('routes.assign_staff', trek_id=trek.id) }}">
+
+Assign Staff
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="{{ url_for('routes.admin_dashboard') }}">
+Dashboard
+</a>
+
+</body>
+</html>

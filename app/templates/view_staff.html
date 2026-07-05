@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>All Staff</title>
+
+</head>
+
+<body>
+
+<h2>All Trek Staff</h2>
+
+<table border="1">
+
+<tr>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for s in staff %}
+
+<tr>
+
+<td>{{ s.user.name }}</td>
+
+<td>{{ s.user.email }}</td>
+
+<td>{{ s.status }}</td>
+
+<td>
+
+<a href="{{ url_for('routes.blacklist_staff', id=s.id) }}">
+
+Blacklist
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>

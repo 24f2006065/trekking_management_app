@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Pending Staff</title>
+
+</head>
+
+<body>
+
+<h2>Pending Trek Staff Requests</h2>
+
+<table border="1">
+
+<tr>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Contact</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for s in staff %}
+
+<tr>
+
+<td>{{ s.user.name }}</td>
+
+<td>{{ s.user.email }}</td>
+
+<td>{{ s.contact }}</td>
+
+<td>
+
+<a href="{{ url_for('routes.approve_staff', id=s.id) }}">
+
+Approve
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>

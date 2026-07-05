@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Users</title>
+
+</head>
+
+<body>
+
+<h2>Registered Trekkers</h2>
+
+<table border="1">
+
+<tr>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for user in users %}
+
+<tr>
+
+<td>{{ user.name }}</td>
+
+<td>{{ user.email }}</td>
+
+<td>
+
+<a href="{{ url_for('routes.blacklist_user', id=user.id) }}">
+
+Blacklist
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>
