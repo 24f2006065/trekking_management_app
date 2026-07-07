@@ -300,3 +300,67 @@ def view_bookings():
         "view_bookings.html",
         bookings=bookings
     )
+@routes.route("/update_trek/<int:trek_id>", methods=["GET","POST"])
+@login_required
+def update_trek(trek_id):
+
+    if current_user.role != "staff":
+        return redirect(url_for("auth.login"))
+
+    profile = StaffProfile.query.filter_by(
+        user_id=current_user.id
+    ).first()
+
+    trek = Trek.query.filter_by(
+        id=trek_id,
+        assigned_staff_id=profile.id
+    ).first()
+
+    if trek is None:
+        flash("Unauthorized Access")
+        return redirect(url_for("routes.staff_dashboard"))
+
+    if request.method == "POST":
+
+        trek.available_slots = request.form.get("available_slots")
+        trek.status = request.form.get("status")
+
+        db.session.commit()
+
+        flash("Trek Updated Successfully")
+
+        return redirect(url_for("routes.staff_dashboard"))
+
+    return render_template(
+        "update_trek.html",
+        trek=trek
+    )
+@routes.route("/participants/<int:trek_id>")
+@login_required
+def participants(trek_id):
+
+    if current_user.role != "staff":
+        return redirect(url_for("auth.login"))
+
+    profile = StaffProfile.query.filter_by(
+        user_id=current_user.id
+    ).first()
+
+    trek = Trek.query.filter_by(
+        id=trek_id,
+        assigned_staff_id=profile.id
+    ).first()
+
+    if trek is None:
+        flash("Unauthorized")
+        return redirect(url_for("routes.staff_dashboard"))
+
+    bookings = Booking.query.filter_by(
+        trek_id=trek.id
+    ).all()
+
+    return render_template(
+        "participants.html",
+        trek=trek,
+        bookings=bookings
+    )

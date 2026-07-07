@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Update Trek</title>
+
+</head>
+
+<body>
+
+<h2>Update Trek</h2>
+
+<form method="POST">
+
+<p>
+
+<strong>{{ trek.trek_name }}</strong>
+
+</p>
+
+<label>Available Slots</label>
+
+<br>
+
+<input
+type="number"
+name="available_slots"
+value="{{ trek.available_slots }}"
+required>
+
+<br><br>
+
+<label>Status</label>
+
+<br>
+
+<select name="status">
+
+<option {% if trek.status=="Open" %}selected{% endif %}>
+Open
+</option>
+
+<option {% if trek.status=="Closed" %}selected{% endif %}>
+Closed
+</option>
+
+<option {% if trek.status=="Started" %}selected{% endif %}>
+Started
+</option>
+
+<option {% if trek.status=="Ongoing" %}selected{% endif %}>
+Ongoing
+</option>
+
+<option {% if trek.status=="Completed" %}selected{% endif %}>
+Completed
+</option>
+
+</select>
+
+<br><br>
+
+<button>
+
+Update Trek
+
+</button>
+
+</form>
+
+</body>
+
+</html>
