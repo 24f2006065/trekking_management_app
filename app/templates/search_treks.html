@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Search Treks</title>
+
+</head>
+
+<body>
+
+<h2>Search Treks</h2>
+
+<form method="POST">
+
+<input
+type="text"
+name="location"
+placeholder="Location">
+
+<select name="difficulty">
+
+<option value="">All</option>
+
+<option>Easy</option>
+
+<option>Moderate</option>
+
+<option>Hard</option>
+
+</select>
+
+<button>
+
+Search
+
+</button>
+
+</form>
+
+<hr>
+
+<table border="1">
+
+<tr>
+
+<th>Name</th>
+
+<th>Location</th>
+
+<th>Difficulty</th>
+
+<th>Slots</th>
+
+<th></th>
+
+</tr>
+
+{% for trek in treks %}
+
+<tr>
+
+<td>{{ trek.trek_name }}</td>
+
+<td>{{ trek.location }}</td>
+
+<td>{{ trek.difficulty }}</td>
+
+<td>{{ trek.available_slots }}</td>
+
+<td>
+
+<a href="{{ url_for('routes.book_trek',trek_id=trek.id) }}">
+Book
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>

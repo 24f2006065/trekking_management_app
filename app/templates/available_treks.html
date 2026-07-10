@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Available Treks</title>
+
+</head>
+
+<body>
+
+<h2>Available Treks</h2>
+
+<hr>
+
+<table border="1">
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Location</th>
+
+<th>Difficulty</th>
+
+<th>Duration</th>
+
+<th>Slots</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for trek in treks %}
+
+<tr>
+
+<td>{{ trek.id }}</td>
+
+<td>{{ trek.trek_name }}</td>
+
+<td>{{ trek.location }}</td>
+
+<td>{{ trek.difficulty }}</td>
+
+<td>{{ trek.duration }}</td>
+
+<td>{{ trek.available_slots }}</td>
+
+<td>{{ trek.status }}</td>
+
+<td>
+
+<a href="{{ url_for('routes.book_trek',trek_id=trek.id) }}">
+
+Book Trek
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="{{ url_for('routes.user_dashboard') }}">
+
+Dashboard
+
+</a>
+
+</body>
+
+</html>

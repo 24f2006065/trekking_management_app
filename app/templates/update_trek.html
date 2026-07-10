@@ -2,9 +2,7 @@
 <html>
 
 <head>
-
-<title>Update Trek</title>
-
+    <title>Update Trek</title>
 </head>
 
 <body>
@@ -13,62 +11,84 @@
 
 <form method="POST">
 
-<p>
+    <label>Trek Name</label>
+    <br>
+    <input
+        type="text"
+        name="trek_name"
+        value="{{ trek.trek_name }}"
+        readonly
+    >
 
-<strong>{{ trek.trek_name }}</strong>
+    <br><br>
 
-</p>
+    <label>Available Slots</label>
+    <br>
 
-<label>Available Slots</label>
+    <input
+        type="number"
+        name="available_slots"
+        value="{{ trek.available_slots }}"
+        required
+    >
 
-<br>
+    <br><br>
 
-<input
-type="number"
-name="available_slots"
-value="{{ trek.available_slots }}"
-required>
+    <label>Trek Status</label>
 
-<br><br>
+    <br>
 
-<label>Status</label>
+    <select name="status">
 
-<br>
+        <option value="Pending"
+        {% if trek.status=="Pending" %}selected{% endif %}>
+        Pending
+        </option>
 
-<select name="status">
+        <option value="Open"
+        {% if trek.status=="Open" %}selected{% endif %}>
+        Open
+        </option>
 
-<option {% if trek.status=="Open" %}selected{% endif %}>
-Open
-</option>
+        <option value="Closed"
+        {% if trek.status=="Closed" %}selected{% endif %}>
+        Closed
+        </option>
 
-<option {% if trek.status=="Closed" %}selected{% endif %}>
-Closed
-</option>
+        <option value="Started"
+        {% if trek.status=="Started" %}selected{% endif %}>
+        Started
+        </option>
 
-<option {% if trek.status=="Started" %}selected{% endif %}>
-Started
-</option>
+        <option value="Ongoing"
+        {% if trek.status=="Ongoing" %}selected{% endif %}>
+        Ongoing
+        </option>
 
-<option {% if trek.status=="Ongoing" %}selected{% endif %}>
-Ongoing
-</option>
+        <option value="Completed"
+        {% if trek.status=="Completed" %}selected{% endif %}>
+        Completed
+        </option>
 
-<option {% if trek.status=="Completed" %}selected{% endif %}>
-Completed
-</option>
+    </select>
 
-</select>
+    <br><br>
 
-<br><br>
+    <button type="submit">
 
-<button>
+        Update Trek
 
-Update Trek
-
-</button>
+    </button>
 
 </form>
 
-</body>
+<br>
 
+<a href="{{ url_for('routes.staff_dashboard') }}">
+
+Back
+
+</a>
+
+</body>
 </html>

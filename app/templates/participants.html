@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>Participants</title>
-
-</head>
-
-<body>
-
-<h2>{{ trek.trek_name }}</h2>
-
 <table border="1">
 
 <tr>
@@ -20,6 +7,8 @@
 <th>Email</th>
 
 <th>Status</th>
+
+<th>Action</th>
 
 </tr>
 
@@ -33,12 +22,27 @@
 
 <td>{{ booking.status }}</td>
 
+<td>
+
+{% if booking.status=="Booked" %}
+
+<a href="{{ url_for('routes.complete_booking',
+booking_id=booking.id) }}">
+
+Complete
+
+</a>
+
+{% else %}
+
+--
+
+{% endif %}
+
+</td>
+
 </tr>
 
 {% endfor %}
 
 </table>
-
-</body>
-
-</html>

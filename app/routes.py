@@ -40,14 +40,27 @@ def staff_dashboard():
 
 
 # User Dashboard
-@routes.route('/user')
+@routes.route("/user")
 @login_required
 def user_dashboard():
 
     if current_user.role != "user":
-        return redirect(url_for('auth.login'))
+        return redirect(url_for("auth.login"))
 
-    return render_template('user_dashboard.html')
+    total_bookings = Booking.query.filter_by(
+        user_id=current_user.id
+    ).count()
+
+    upcoming_treks = Booking.query.filter_by(
+        user_id=current_user.id,
+        status="Booked"
+    ).count()
+
+    return render_template(
+        "user_dashboard.html",
+        total_bookings=total_bookings,
+        upcoming_treks=upcoming_treks
+    )
 
 
 @routes.route('/admin', methods= ["GET", "POST"])
@@ -314,22 +327,23 @@ def update_trek(trek_id):
     trek = Trek.query.filter_by(
         id=trek_id,
         assigned_staff_id=profile.id
-    ).first()
-
-    if trek is None:
-        flash("Unauthorized Access")
-        return redirect(url_for("routes.staff_dashboard"))
+    ).first_or_404()
 
     if request.method == "POST":
 
-        trek.available_slots = request.form.get("available_slots")
-        trek.status = request.form.get("status")
+        trek.available_slots = int(
+            request.form["available_slots"]
+        )
+
+        trek.status = request.form["status"]
 
         db.session.commit()
 
         flash("Trek Updated Successfully")
 
-        return redirect(url_for("routes.staff_dashboard"))
+        return redirect(
+            url_for("routes.staff_dashboard")
+        )
 
     return render_template(
         "update_trek.html",
@@ -363,4 +377,195 @@ def participants(trek_id):
         "participants.html",
         trek=trek,
         bookings=bookings
+    )
+
+@routes.route("/search_treks", methods=["GET","POST"])
+@login_required
+def search_treks():
+
+    if current_user.role != "user":
+        return redirect(url_for("auth.login"))
+
+    treks = Trek.query.filter_by(status="Open")
+
+    if request.method == "POST":
+
+        location = request.form.get("location")
+        difficulty = request.form.get("difficulty")
+
+        if location:
+            treks = treks.filter(
+                Trek.location.ilike(f"%{location}%")
+            )
+
+        if difficulty:
+            treks = treks.filter_by(
+                difficulty=difficulty
+            )
+
+    return render_template(
+        "search_treks.html",
+        treks=treks.all()
+    )
+
+
+@routes.route("/available_treks")
+@login_required
+def available_treks():
+
+    if current_user.role != "user":
+        return redirect(url_for("auth.login"))
+
+    treks = Trek.query.filter_by(status="Open").all()
+
+    return render_template(
+        "available_treks.html",
+        treks=treks
+    )
+
+
+@routes.route("/book_trek/<int:trek_id>")
+@login_required
+def book_trek(trek_id):
+
+    if current_user.role != "user":
+        return redirect(url_for("auth.login"))
+
+    trek = Trek.query.get_or_404(trek_id)
+
+
+    if trek.status != "Open":
+        flash("Booking Closed")
+        return redirect(url_for("routes.available_treks"))
+
+
+    if trek.available_slots <= 0:
+        flash("No Slots Available")
+        return redirect(url_for("routes.available_treks"))
+
+    existing = Booking.query.filter_by(
+        user_id=current_user.id,
+        trek_id=trek.id
+    ).first()
+
+    if existing:
+        flash("Already Booked")
+        return redirect(url_for("routes.available_treks"))
+
+    booking = Booking(
+        user_id=current_user.id,
+        trek_id=trek.id,
+        booking_date=datetime.now(),
+        status="Booked"
+    )
+
+    db.session.add(booking)
+
+    trek.available_slots -= 1
+
+    db.session.commit()
+
+    flash("Booking Successful")
+
+    return redirect(url_for("routes.my_bookings"))
+
+
+@routes.route("/my_bookings")
+@login_required
+def my_bookings():
+
+    if current_user.role != "user":
+        return redirect(url_for("auth.login"))
+
+    bookings = Booking.query.filter_by(
+        user_id=current_user.id
+    ).all()
+
+    return render_template(
+        "my_bookings.html",
+        bookings=bookings
+    )
+
+
+@routes.route("/cancel_booking/<int:booking_id>")
+@login_required
+def cancel_booking(booking_id):
+
+    booking = Booking.query.get_or_404(booking_id)
+
+    if booking.user_id != current_user.id:
+
+        flash("Unauthorized")
+
+        return redirect(url_for("routes.my_bookings"))
+
+    if booking.status != "Booked":
+
+        flash("Already Cancelled")
+
+        return redirect(url_for("routes.my_bookings"))
+
+    booking.status = "Cancelled"
+
+    trek = Trek.query.get(booking.trek_id)
+
+    trek.available_slots += 1
+
+    db.session.commit()
+
+    flash("Booking Cancelled")
+
+    return redirect(url_for("routes.my_bookings"))
+
+
+@routes.route("/update_profile",methods=["GET","POST"])
+@login_required
+def update_profile():
+
+    if current_user.role!="user":
+        return redirect(url_for("auth.login"))
+
+    if request.method=="POST":
+
+        current_user.name=request.form["name"]
+
+        current_user.email=request.form["email"]
+
+        db.session.commit()
+
+        flash("Profile Updated")
+
+        return redirect(url_for("routes.user_dashboard"))
+
+    return render_template(
+        "update_profile.html"
+    )
+@routes.route("/complete_booking/<int:booking_id>")
+@login_required
+def complete_booking(booking_id):
+
+    if current_user.role != "staff":
+        return redirect(url_for("auth.login"))
+
+    booking = Booking.query.get_or_404(booking_id)
+
+    profile = StaffProfile.query.filter_by(
+        user_id=current_user.id
+    ).first()
+
+    if booking.trek.assigned_staff_id != profile.id:
+        flash("Unauthorized")
+        return redirect(url_for("routes.staff_dashboard"))
+
+    booking.status = "Completed"
+
+    db.session.commit()
+
+    flash("Booking Completed")
+
+    return redirect(
+        url_for(
+            "routes.participants",
+            trek_id=booking.trek_id
+        )
     )
