@@ -1,82 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
-
-<title>Available Treks</title>
-
-</head>
-
-<body>
-
-<h2>Available Treks</h2>
-
-<hr>
-
-<table border="1">
-
-<tr>
-
-<th>ID</th>
-
-<th>Name</th>
-
-<th>Location</th>
-
-<th>Difficulty</th>
-
-<th>Duration</th>
-
-<th>Slots</th>
-
-<th>Status</th>
-
-<th>Action</th>
-
-</tr>
-
-{% for trek in treks %}
-
-<tr>
-
-<td>{{ trek.id }}</td>
-
-<td>{{ trek.trek_name }}</td>
-
-<td>{{ trek.location }}</td>
-
-<td>{{ trek.difficulty }}</td>
-
-<td>{{ trek.duration }}</td>
-
-<td>{{ trek.available_slots }}</td>
-
-<td>{{ trek.status }}</td>
-
-<td>
-
-<a href="{{ url_for('routes.book_trek',trek_id=trek.id) }}">
-
-Book Trek
-
-</a>
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<br>
-
-<a href="{{ url_for('routes.user_dashboard') }}">
-
-Dashboard
-
-</a>
-
-</body>
-
+  <head>
+    <title>Available Treks</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Available Treks</h2>
+      {% for message in get_flashed_messages() %}
+      <p class="flash">{{ message }}</p>
+      {% endfor %}
+      <form method="GET">
+        <label>Location</label
+        ><input name="location" value="{{ location }}" /><label
+          >Difficulty</label
+        ><select name="difficulty">
+          <option value="">All</option>
+          <option {% if difficulty=="Easy" %}selected{% endif %}>
+            Easy
+          </option>
+          <option {% if difficulty=="Moderate" %}selected{% endif %}>
+            Moderate
+          </option>
+          <option {% if difficulty=="Hard" %}selected{% endif %}>
+            Hard
+          </option></select
+        ><button>Search</button>
+      </form>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Difficulty</th>
+          <th>Duration</th>
+          <th>Slots</th>
+          <th>Action</th>
+        </tr>
+        {% for trek in treks %}
+        <tr>
+          <td>{{ trek.trek_name }}</td>
+          <td>{{ trek.location }}</td>
+          <td>{{ trek.difficulty }}</td>
+          <td>{{ trek.duration }} days</td>
+          <td>{{ trek.available_slots }}</td>
+          <td>
+            <a href="{{ url_for('routes.book_trek', id=trek.id) }}"
+              >Book Trek</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p><a href="{{ url_for('routes.user_dashboard') }}">Dashboard</a></p>
+    </div>
+  </body>
 </html>

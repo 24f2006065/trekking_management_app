@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Assign Staff</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Assign Staff to {{ trek.trek_name }}</h2>
+      <form method="POST">
+        <select name="staff_id">
+          {% for profile in staff %}
+          <option
+            value="{{ profile.id }}"
+            {%
+            if
+            trek.assigned_staff_id=="profile.id"%}selected{%endif%}
+          >
+            {{ profile.user.name }}
+          </option>
+          {% endfor %}</select
+        ><button>Assign</button>
+      </form>
+      <a href="{{ url_for('routes.view_treks') }}">Back</a>
+    </div>
+  </body>
+</html>

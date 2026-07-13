@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration</title>
-</head>
-<body>
-    <h1>REGISTER</h1>
-
-    <h3>Register as:</h3>
-
-    <a href="{{url_for('/register/trek_staff')}}">Trek Staff</a>
-    <br>
-    <a href="{{url_for('/register/user')}}">User</a>
-
-
-    
-</body>
+<!doctype html>
+<html>
+  <head>
+    <title>Register</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Register</h1>
+      <a class="button" href="{{ url_for('auth.user_register') }}"
+        >Register as User</a
+      >
+      <a class="button" href="{{ url_for('auth.staff_register') }}"
+        >Register as Trek Staff</a
+      >
+      <p><a href="{{ url_for('auth.login') }}">Login</a></p>
+    </div>
+  </body>
 </html>

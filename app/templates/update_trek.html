@@ -1,94 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
+  <head>
     <title>Update Trek</title>
-</head>
-
-<body>
-
-<h2>Update Trek</h2>
-
-<form method="POST">
-
-    <label>Trek Name</label>
-    <br>
-    <input
-        type="text"
-        name="trek_name"
-        value="{{ trek.trek_name }}"
-        readonly
-    >
-
-    <br><br>
-
-    <label>Available Slots</label>
-    <br>
-
-    <input
-        type="number"
-        name="available_slots"
-        value="{{ trek.available_slots }}"
-        required
-    >
-
-    <br><br>
-
-    <label>Trek Status</label>
-
-    <br>
-
-    <select name="status">
-
-        <option value="Pending"
-        {% if trek.status=="Pending" %}selected{% endif %}>
-        Pending
-        </option>
-
-        <option value="Open"
-        {% if trek.status=="Open" %}selected{% endif %}>
-        Open
-        </option>
-
-        <option value="Closed"
-        {% if trek.status=="Closed" %}selected{% endif %}>
-        Closed
-        </option>
-
-        <option value="Started"
-        {% if trek.status=="Started" %}selected{% endif %}>
-        Started
-        </option>
-
-        <option value="Ongoing"
-        {% if trek.status=="Ongoing" %}selected{% endif %}>
-        Ongoing
-        </option>
-
-        <option value="Completed"
-        {% if trek.status=="Completed" %}selected{% endif %}>
-        Completed
-        </option>
-
-    </select>
-
-    <br><br>
-
-    <button type="submit">
-
-        Update Trek
-
-    </button>
-
-</form>
-
-<br>
-
-<a href="{{ url_for('routes.staff_dashboard') }}">
-
-Back
-
-</a>
-
-</body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Update Trek</h2>
+      <form method="POST">
+        <p>{{ trek.trek_name }}</p>
+        <label>Available Slots</label
+        ><input
+          type="number"
+          name="available_slots"
+          value="{{ trek.available_slots }}"
+          required
+        /><label>Status</label
+        ><select name="status">
+          <option {% if trek.status=="Open" %}selected{% endif %}>
+            Open
+          </option>
+          <option {% if trek.status=="Closed" %}selected{% endif %}>
+            Closed
+          </option>
+          <option {% if trek.status=="Started" %}selected{% endif %}>
+            Started
+          </option>
+          <option {% if trek.status=="Completed" %}selected{% endif %}>
+            Completed
+          </option></select
+        ><button>Update</button>
+      </form>
+      <a href="{{ url_for('routes.staff_dashboard') }}">Back</a>
+    </div>
+  </body>
 </html>

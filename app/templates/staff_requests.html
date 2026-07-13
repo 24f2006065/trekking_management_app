@@ -1,56 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
-
-<title>Pending Staff</title>
-
-</head>
-
-<body>
-
-<h2>Pending Trek Staff Requests</h2>
-
-<table border="1">
-
-<tr>
-
-<th>Name</th>
-
-<th>Email</th>
-
-<th>Contact</th>
-
-<th>Action</th>
-
-</tr>
-
-{% for s in staff %}
-
-<tr>
-
-<td>{{ s.user.name }}</td>
-
-<td>{{ s.user.email }}</td>
-
-<td>{{ s.contact }}</td>
-
-<td>
-
-<a href="{{ url_for('routes.approve_staff', id=s.id) }}">
-
-Approve
-
-</a>
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-</body>
-
+  <head>
+    <title>Staff Requests</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Pending Staff Requests</h2>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Action</th>
+        </tr>
+        {% for profile in staff %}
+        <tr>
+          <td>{{ profile.user.name }}</td>
+          <td>{{ profile.user.email }}</td>
+          <td>{{ profile.contact }}</td>
+          <td>
+            <a href="{{ url_for('routes.approve_staff', id=profile.id) }}"
+              >Approve</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p><a href="{{ url_for('routes.admin_dashboard') }}">Dashboard</a></p>
+    </div>
+  </body>
 </html>

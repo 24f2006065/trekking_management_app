@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+}
+
+h1,
+h2 {
+  color: #333;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 12px;
+  box-sizing: border-box;
+}
+
+button,
+.button {
+  background: #287a45;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a {
+  color: #176334;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background: #e2eee5;
+}
+
+.flash {
+  background: #fff3cd;
+  padding: 8px;
+}

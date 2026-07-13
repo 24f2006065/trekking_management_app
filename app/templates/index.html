@@ -2,18 +2,19 @@
 <html>
   <head>
     <title>Trekking Management System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
   </head>
   <body>
-    <h1>Welcome to Trekking Management System</h1>
-
-    <a href="{{ url_for('auth.login') }}">Login</a>
-
-    <br /><br />
-
-    <a href="{{ url_for('auth.user_register') }}">User Register</a><br /><br />
-
-    <a href="{{ url_for('auth.staff_register') }}">Staff Register</a>
-
-    
+    <div class="container">
+      <h1>Trekking Management System</h1>
+      <p>Manage treks, staff and bookings.</p>
+      <a class="button" href="{{ url_for('auth.login') }}">Login</a>
+      <a class="button" href="{{ url_for('auth.register_choice') }}"
+        >Register</a
+      >
+    </div>
   </body>
 </html>

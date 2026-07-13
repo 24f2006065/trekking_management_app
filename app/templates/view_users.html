@@ -1,52 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
-
-<title>Users</title>
-
-</head>
-
-<body>
-
-<h2>Registered Trekkers</h2>
-
-<table border="1">
-
-<tr>
-
-<th>Name</th>
-
-<th>Email</th>
-
-<th>Action</th>
-
-</tr>
-
-{% for user in users %}
-
-<tr>
-
-<td>{{ user.name }}</td>
-
-<td>{{ user.email }}</td>
-
-<td>
-
-<a href="{{ url_for('routes.blacklist_user', id=user.id) }}">
-
-Blacklist
-
-</a>
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-</body>
-
+  <head>
+    <title>Users</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Registered Users</h2>
+      <form method="GET">
+        <input name="q" value="{{ query }}" placeholder="Search name" /><button>
+          Search
+        </button>
+      </form>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            {% if user.is_blacklisted %}Blacklisted{% else %}Active{% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('routes.blacklist_user', id=user.id) }}"
+              >Blacklist</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p><a href="{{ url_for('routes.admin_dashboard') }}">Dashboard</a></p>
+    </div>
+  </body>
 </html>

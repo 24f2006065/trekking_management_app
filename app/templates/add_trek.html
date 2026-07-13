@@ -1,102 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+<!doctype html>
+<html>
+  <head>
     <title>Add Trek</title>
-</head>
-
-<body>
-
-<h2>Add New Trek</h2>
-
-<form method="POST">
-
-    <input
-        type="text"
-        name="trek_name"
-        placeholder="Trek Name"
-        required
-    >
-
-    <br><br>
-
-    <input
-        type="text"
-        name="location"
-        placeholder="Location"
-        required
-    >
-
-    <br><br>
-
-    <select
-        name="difficulty"
-        required
-    >
-        <option value="">Select Difficulty</option>
-        <option>Easy</option>
-        <option>Moderate</option>
-        <option>Hard</option>
-    </select>
-
-    <br><br>
-
-    <input
-        type="number"
-        name="duration"
-        placeholder="Duration (Days)"
-        required
-    >
-
-    <br><br>
-
-    <input
-        type="number"
-        name="available_slots"
-        placeholder="Available Slots"
-        required
-    >
-
-    <br><br>
-
-    <input
-        type="date"
-        name="start_date"
-        required
-    >
-
-    <br><br>
-
-    <input
-        type="date"
-        name="end_date"
-        required
-    >
-
-    <br><br>
-
-    <select
-        name="status"
-        required
-    >
-        <option>Open</option>
-        <option>Closed</option>
-    </select>
-
-    <br><br>
-
-    <button type="submit">
-        Create Trek
-    </button>
-
-</form>
-
-<br>
-
-<a href="{{ url_for('routes.admin_dashboard') }}">
-    Back to Dashboard
-</a>
-
-</body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Add Trek</h2>
+      <form method="POST">
+        <label>Trek Name</label><input name="trek_name" required /><label
+          >Location</label
+        ><input name="location" required /><label>Difficulty</label
+        ><select name="difficulty">
+          <option>Easy</option>
+          <option>Moderate</option>
+          <option>Hard</option></select
+        ><label>Duration</label
+        ><input type="number" name="duration" required /><label
+          >Available Slots</label
+        ><input type="number" name="available_slots" required /><label
+          >Start Date</label
+        ><input type="date" name="start_date" required /><label>End Date</label
+        ><input type="date" name="end_date" required /><label>Status</label
+        ><select name="status">
+          <option>Pending</option>
+          <option>Open</option>
+          <option>Closed</option></select
+        ><button>Add Trek</button>
+      </form>
+      <a href="{{ url_for('routes.admin_dashboard') }}">Back</a>
+    </div>
+  </body>
 </html>

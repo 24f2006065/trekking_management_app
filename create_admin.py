@@ -6,8 +6,6 @@ app = create_app()
 
 with app.app_context():
 
-    db.create_all()
-
     admin = User.query.filter_by(
         email="admin@trek.com"
     ).first()
@@ -15,7 +13,7 @@ with app.app_context():
     if not admin:
 
         admin = User(
-            name="Admin",
+            name="Administrator",
             email="admin@trek.com",
             password=generate_password_hash(
                 "admin123"

@@ -1,41 +1,28 @@
-<h2>User Dashboard</h2>
-
-<hr>
-
-<a href="{{ url_for('routes.available_treks') }}">
-
-View Available Treks
-
-</a>
-
-<br><br>
-
-<a href="{{ url_for('routes.my_bookings') }}">
-
-My Bookings
-<a href="{{ url_for('routes.update_profile') }}">
-
-Update Profile
-
-</a>
-
-<br><br>
-</a>
-
-<br><br>
-
-<a href="{{ url_for('routes.search_treks') }}">
-
-Search Treks
-
-</a>
-
-<br><br>
-
-<a href="{{ url_for('auth.logout') }}">
-
-Logout
-
-</a>
-
-
+<!doctype html>
+<html>
+  <head>
+    <title>User Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>User Dashboard</h1>
+      <p>Welcome, {{ current_user.name }}</p>
+      <p>Total Bookings: {{ total_bookings }}</p>
+      <p>Active Bookings: {{ upcoming_treks }}</p>
+      <a class="button" href="{{ url_for('routes.available_treks') }}"
+        >View Available Treks</a
+      >
+      <a class="button" href="{{ url_for('routes.my_bookings') }}"
+        >My Bookings</a
+      >
+      <a class="button" href="{{ url_for('routes.update_profile') }}"
+        >Update Profile</a
+      >
+      <p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
+    </div>
+  </body>
+</html>

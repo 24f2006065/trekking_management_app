@@ -1,79 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
-
-<title>My Bookings</title>
-
-</head>
-
-<body>
-
-<h2>My Trek Bookings</h2>
-
-<hr>
-
-<table border="1">
-
-<tr>
-
-<th>Trek</th>
-
-<th>Location</th>
-
-<th>Date</th>
-
-<th>Status</th>
-
-<th>Action</th>
-
-</tr>
-
-{% for booking in bookings %}
-
-<tr>
-
-<td>{{ booking.trek.trek_name }}</td>
-
-<td>{{ booking.trek.location }}</td>
-
-<td>{{ booking.booking_date }}</td>
-
-<td>{{ booking.status }}</td>
-
-<td>
-
-{% if booking.status=="Booked" %}
-
-<a href="{{ url_for('routes.cancel_booking',
-booking_id=booking.id) }}">
-
-Cancel
-
-</a>
-
-{% else %}
-
---
-
-{% endif %}
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<br>
-
-<a href="{{ url_for('routes.available_treks') }}">
-
-Book Another Trek
-
-</a>
-
-</body>
-
+  <head>
+    <title>My Bookings</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>My Trek Bookings</h2>
+      <table>
+        <tr>
+          <th>Trek</th>
+          <th>Location</th>
+          <th>Date</th>
+          <th>Booking Status</th>
+          <th>Trek Status</th>
+          <th>Action</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.trek.trek_name }}</td>
+          <td>{{ booking.trek.location }}</td>
+          <td>{{ booking.booking_date }}</td>
+          <td>{{ booking.status }}</td>
+          <td>{{ booking.trek.status }}</td>
+          <td>
+            {% if booking.status == 'Booked' %}<a
+              href="{{ url_for('routes.cancel_booking', id=booking.id) }}"
+              >Cancel</a
+            >{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p>
+        <a href="{{ url_for('routes.available_treks') }}">Book Another Trek</a>
+        | <a href="{{ url_for('routes.user_dashboard') }}">Dashboard</a>
+      </p>
+    </div>
+  </body>
 </html>

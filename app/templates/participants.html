@@ -1,48 +1,37 @@
-<table border="1">
-
-<tr>
-
-<th>Name</th>
-
-<th>Email</th>
-
-<th>Status</th>
-
-<th>Action</th>
-
-</tr>
-
-{% for booking in bookings %}
-
-<tr>
-
-<td>{{ booking.user.name }}</td>
-
-<td>{{ booking.user.email }}</td>
-
-<td>{{ booking.status }}</td>
-
-<td>
-
-{% if booking.status=="Booked" %}
-
-<a href="{{ url_for('routes.complete_booking',
-booking_id=booking.id) }}">
-
-Complete
-
-</a>
-
-{% else %}
-
---
-
-{% endif %}
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
+<!doctype html>
+<html>
+  <head>
+    <title>Participants</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>{{ trek.trek_name }} Participants</h2>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.user.name }}</td>
+          <td>{{ booking.user.email }}</td>
+          <td>{{ booking.status }}</td>
+          <td>
+            {% if booking.status == 'Booked' %}<a
+              href="{{ url_for('routes.complete_booking', id=booking.id) }}"
+              >Complete</a
+            >{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p><a href="{{ url_for('routes.staff_dashboard') }}">Dashboard</a></p>
+    </div>
+  </body>
+</html>
